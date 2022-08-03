@@ -13,7 +13,7 @@ const Home = ({ games }: HomeProps) => {
 
     return (
         <main>
-            <h2>Welcome to the Game center!</h2>
+            <h2>{t('welcome_text')}</h2>
 
             <div className="games">
                 {games.map(g => (

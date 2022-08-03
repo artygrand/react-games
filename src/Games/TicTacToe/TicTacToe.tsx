@@ -1,34 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { GameData } from 'types';
 import en from './locales/en';
 import ru from './locales/ru';
 import './main.scss'
+import Cell from './components/Cell';
+import useController, { CellState } from './hooks/useController';
 
 
 const TicTacToe: GameData = () => {
-    const [ state, setState ] = useState();
+    const { t } = useTranslation('tic-tac-toe');
+    const { gameOver, state, winner, score, userAction, reset } = useController();
 
     return (
         <div id="game-tic-tac">
-            <table>
+
+            <div className="winner">
+                {winner ? <>{t('winner')}: {t(winner)}</> : <br/>}
+            </div>
+
+            <div className="score">
+                <div>{t('human')}</div>
+                <div>{score.user}</div>
+                <div>:</div>
+                <div>{score.tie}</div>
+                <div>:</div>
+                <div>{score.bot}</div>
+                <div>{t('robot')}</div>
+            </div>
+            <table style={gameOver ? {pointerEvents: 'none'} : undefined}>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                {[0, 1, 2].map(x => (
+                    <tr key={x}>
+                        {[0, 1, 2].map(y => (
+                            <Cell
+                                key={y}
+                                onClick={state[x*3+y] === CellState.Empty ? () => userAction(x, y) : undefined}
+                                state={state[x*3+y]}
+                            />
+                        ))}
+                    </tr>
+                ))}
                 </tbody>
             </table>
+
+            <div className="buttons">
+                {gameOver &&
+                    <button onClick={reset}>{t('new_game')}</button>
+                }
+            </div>
+
         </div>
     );
 };
