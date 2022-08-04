@@ -8,11 +8,6 @@ export enum CellState {
     Circle,
 }
 
-enum Player {
-    Human,
-    Robot,
-}
-
 enum End {
     Win = -2,
     Tie = -1,
