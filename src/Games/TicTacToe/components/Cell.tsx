@@ -4,18 +4,19 @@ import { CellState } from 'Games/TicTacToe/hooks/useController';
 
 type CellProps = React.TdHTMLAttributes<HTMLTableCellElement> & {
     state: CellState,
+    idx: number,
 }
 
 const content = {
-    [CellState.Cross]: <div className="cross"></div>,
-    [CellState.Circle]: <div className="circle"></div>,
-    [CellState.Empty]: null,
+    [CellState.Cross]: (i: number) => <div className={`cross move${i}`}></div>,
+    [CellState.Circle]: (i: number) => <div className={`circle move${i}`}></div>,
+    [CellState.Empty]: () => null,
 }
 
-const Cell = ({ state, ...props }: CellProps) => {
+const Cell = ({ idx, state, ...props }: CellProps) => {
     return (
         <td {...props}>
-            {content[state]}
+            {content[state](idx % 4)}
         </td>
     );
 };

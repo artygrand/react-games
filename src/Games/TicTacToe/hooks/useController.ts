@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { randomValue, replaceItemAtIndex } from 'utils/common';
 
 
@@ -37,20 +37,18 @@ const checks = [
 ];
 
 const useController = () => {
-    const [ state, setState ] = useState([...defaultValues]);
-    const [ emptyCells, setEmptyCells ] = useState([...defaultEmpties]);
-    const [ turn, setTurn ] = useState(Player.Human);
+    const [ data, setData ] = useState({
+        state: [...defaultValues],
+        empty: [...defaultEmpties],
+    });
+    const [ botTurn, newTurn ] = useReducer(bot => !bot, false);
     const [ score, setScore ] = useState({user: 0, tie: 0, bot: 0});
     const [ winner, setWinner ] = useState<string|null>(null);
     const [ gameOver, setGameOver ] = useState(false);
 
     useEffect(() => {
-        // on first run
-        if (emptyCells.length === 9)
-            return;
-
         // someone won or bot can choose any empty cell
-        const result = check(turn === Player.Robot ? CellState.Cross : CellState.Circle);
+        const result = check(botTurn ? CellState.Cross : CellState.Circle);
 
         // looks like no variants for bot
         if (result < 0) {
@@ -68,29 +66,29 @@ const useController = () => {
             setScore(old => {
                 const temp = {...old}
 
-                if (turn === Player.Human)
-                    temp.bot++;
-                else
+                if (botTurn)
                     temp.user++;
+                else
+                    temp.bot++;
 
                 return temp;
             });
 
-            setWinner(turn === Player.Human ? 'robot' : 'human');
+            setWinner(botTurn ? 'human' : 'robot');
 
             return;
         }
 
-        if (turn === Player.Robot) {
+        if (botTurn) {
             const timer = setTimeout(() => botAction(result), 500);
             return () => clearTimeout(timer);
         }
-    }, [turn]);
+    }, [botTurn]);
 
     const check = (enemyState: CellState) => {
         // first choice for bot
-        if (emptyCells.length === 8)
-            return randomValue(emptyCells);
+        if (data.empty.length > 7)
+            return randomValue(data.empty);
 
         const possible: number[] = [];
 
@@ -100,7 +98,7 @@ const useController = () => {
                 empty: number[] = [];
 
             checks[i].forEach(idx => {
-                switch (state[idx]) {
+                switch (data.state[idx]) {
                     case CellState.Empty:
                         empty.push(idx);
                         break;
@@ -116,50 +114,57 @@ const useController = () => {
                 return End.Win;
             }
 
-            if ((enemy.length === 2 || my.length === 2) && empty.length === 1) {
+            if (enemy.length === 2 && empty.length === 1) {
                 possible.push(empty[0]);
+            }
+
+            if (my.length === 2 && empty.length === 1) {
+                // twice more chances to choose right decision
+                possible.push(empty[0], empty[0]);
             }
         }
 
-        if (!emptyCells.length)
+        if (!data.empty.length)
             return End.Tie;
 
         if (possible.length)
-            // easy mod for everyone! bot can make mistakes
+            // easy mode for everyone! bot can make mistakes
             return randomValue(possible);
 
-        return randomValue(emptyCells);
+        return randomValue(data.empty);
     };
 
     const put = (idx: number, type: CellState) => {
-        setState(old => replaceItemAtIndex(old, idx, type));
-        setEmptyCells(old => old.filter(i => i !== idx));
+        setData(old => ({
+            state: replaceItemAtIndex(old.state, idx, type),
+            empty: old.empty.filter(i => i !== idx),
+        }));
+
+        newTurn();
     };
 
     const userAction = (x: number, y: number) => {
-        if (turn !== Player.Human)
-            return;
-
-        put(x*3+y, CellState.Cross);
-        setTurn(Player.Robot);
+        if (!botTurn)
+            put(x*3+y, CellState.Cross);
     };
 
     const botAction = (idx: number) => {
         put(idx, CellState.Circle);
-        setTurn(Player.Human);
     };
 
     const reset = () => {
-        setState([...defaultValues]);
-        setEmptyCells([...defaultEmpties]);
+        setData({
+            state: [...defaultValues],
+            empty: [...defaultEmpties],
+        });
+        newTurn();
         setWinner(null);
-        setTurn(Player.Human);
         setGameOver(false);
     };
 
     return {
         gameOver,
-        state,
+        state: data.state,
         score,
         winner,
         userAction,

@@ -32,13 +32,18 @@ const TicTacToe: GameData = () => {
                 <tbody>
                 {[0, 1, 2].map(x => (
                     <tr key={x}>
-                        {[0, 1, 2].map(y => (
-                            <Cell
-                                key={y}
-                                onClick={state[x*3+y] === CellState.Empty ? () => userAction(x, y) : undefined}
-                                state={state[x*3+y]}
-                            />
-                        ))}
+                        {[0, 1, 2].map(y => {
+                            const idx = x * 3 + y;
+
+                            return (
+                                <Cell
+                                    key={y}
+                                    idx={idx}
+                                    onClick={state[idx] === CellState.Empty ? () => userAction(x, y) : undefined}
+                                    state={state[idx]}
+                                />
+                            )
+                        })}
                     </tr>
                 ))}
                 </tbody>
