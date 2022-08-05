@@ -18,7 +18,7 @@ const Home = ({ games }: HomeProps) => {
             <div className="games">
                 {games.map(g => (
                     <Link key={g.gameName} to={`/${g.gameName}`} className="card">
-                        <img src="http://placekitten.com/200/200" alt={g.gameName} />
+                        <img src={g.image} alt={g.gameName} />
 
                         <div className="title">
                             {t(`${g.gameName}:title`)}

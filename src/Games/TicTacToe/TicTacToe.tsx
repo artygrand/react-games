@@ -4,6 +4,7 @@ import { GameData } from 'types';
 import en from './locales/en';
 import ru from './locales/ru';
 import './main.scss'
+import image from './tic-tac-toe.png';
 import Cell from './components/Cell';
 import useTicTacToeController, { CellState } from './hooks/useTicTacToeController';
 
@@ -64,7 +65,7 @@ const TicTacToe: GameData = () => {
 };
 
 TicTacToe.gameName = 'tic-tac-toe';
-
+TicTacToe.image = image;
 TicTacToe.locales = {
     en,
     ru,

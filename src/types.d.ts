@@ -5,4 +5,5 @@ export type GameData = React.FC & {
         [key: string]: any
     },
     gameName: string,
+    image: string,
 };
