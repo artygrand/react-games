@@ -49,7 +49,7 @@ a {
   }
 }
 
-.back-button {
+.btn-back {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -61,4 +61,14 @@ a {
   line-height: 1.5rem;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.btn {
+  z-index: 100;
+  cursor: pointer;
+  padding: .5rem 1rem;
+  text-transform: uppercase;
+  background-color: #3d5bd3;
+  color: #d2d7e3;
+  border: none;
 }

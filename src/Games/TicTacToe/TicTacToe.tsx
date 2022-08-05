@@ -5,12 +5,12 @@ import en from './locales/en';
 import ru from './locales/ru';
 import './main.scss'
 import Cell from './components/Cell';
-import useController, { CellState } from './hooks/useController';
+import useTicTacToeController, { CellState } from './hooks/useTicTacToeController';
 
 
 const TicTacToe: GameData = () => {
     const { t } = useTranslation('tic-tac-toe');
-    const { gameOver, state, winner, score, userAction, reset } = useController();
+    const { gameOver, state, winner, score, userAction, reset } = useTicTacToeController();
 
     return (
         <div id="game-tic-tac">
@@ -51,10 +51,14 @@ const TicTacToe: GameData = () => {
 
             <div className="buttons">
                 {gameOver &&
-                    <button onClick={reset}>{t('new_game')}</button>
+                    <button
+                        className="btn"
+                        onClick={reset}
+                    >
+                        {t('again')}
+                    </button>
                 }
             </div>
-
         </div>
     );
 };

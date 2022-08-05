@@ -1,5 +1,5 @@
 import React from 'react';
-import { CellState } from 'Games/TicTacToe/hooks/useController';
+import { CellState } from 'Games/TicTacToe/hooks/useTicTacToeController';
 
 
 type CellProps = React.TdHTMLAttributes<HTMLTableCellElement> & {

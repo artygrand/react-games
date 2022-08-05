@@ -25,3 +25,82 @@ export function shuffle<T extends any[]>(array: T) {
 export function randomValue<T>(array: T[]) {
     return array[Math.floor(Math.random() * array.length)]
 }
+
+class QueueNode<T> {
+    public value: T;
+    public next: QueueNode<T> | null;
+
+    constructor(value: T) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+export class Queue<T> {
+    private head: QueueNode<T> | null;
+    private tail: QueueNode<T> | null;
+    private length: number;
+
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+    };
+
+    enqueue(value: T) {
+        const node = new QueueNode(value);
+
+        if (this.head) {
+            this.tail!.next = node; // pass to old tail
+            this.tail = node; // and then set new tail
+        } else {
+            this.head = node;
+            this.tail = node;
+        }
+
+        this.length++;
+    };
+
+    dequeue() {
+        if (!this.head)
+            throw new Error('Queue is empty');
+
+        const current = this.head;
+        this.head = this.length > 0 ? this.head.next : null;
+        this.length--;
+
+        return current.value;
+    };
+
+    toString() {
+        return this.getValues().join(', ');
+    };
+
+    isEmpty() {
+        return this.length === 0;
+    };
+
+    getHead() {
+        return this.head?.value;
+    };
+
+    getTail() {
+        return this.tail?.value;
+    };
+
+    getValues() {
+        const values = [];
+        let current = this.head;
+
+        while(current) {
+            values.push(current.value);
+            current = current.next;
+        }
+
+        return values;
+    }
+
+    getLength() {
+        return this.length;
+    };
+}

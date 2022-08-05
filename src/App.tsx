@@ -27,7 +27,7 @@ const App = () => {
     return (
         <>
             <Routes>
-                <Route path="/:any" element={<Link to="/" className="back-button">&times;</Link>}/>
+                <Route path="/:any" element={<Link to="/" className="btn-back">&times;</Link>}/>
             </Routes>
 
             <div className="app">

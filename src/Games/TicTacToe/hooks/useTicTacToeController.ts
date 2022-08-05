@@ -31,7 +31,7 @@ const checks = [
     [2, 4, 6],
 ];
 
-const useController = () => {
+const useTicTacToeController = () => {
     const [ data, setData ] = useState({
         state: [...defaultValues],
         empty: [...defaultEmpties],
@@ -167,4 +167,4 @@ const useController = () => {
     };
 };
 
-export default useController;
+export default useTicTacToeController;

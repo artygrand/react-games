@@ -1,6 +1,57 @@
 #game-snake {
-  width: 320px;
-  height: 320px;
-  background-color: darkgrey;
-  padding: 1rem;
+  width: min(60vh, 100vw);
+
+  .score {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+
+    div {
+      padding: .5rem 1rem;
+    }
+  }
+
+  .field {
+    display: grid;
+    grid-gap: 1px;
+
+    div {
+      aspect-ratio: 1;
+      border: 1px solid #535a69;
+      padding: 2px;
+      transition: border-color 150ms, transform 250ms;
+
+      &:before {
+        content: '';
+        display: block;
+        height: 100%;
+        background-color: #535a69;
+        transition: background-color 250ms;
+      }
+    }
+
+    .apple {
+      border-color: #cb3939;
+
+      &:before {
+        background-color: #cb3939;
+      }
+    }
+
+    .snake {
+      border-color: #3d5bd3;
+      transform: translate(-1px, -1px);
+
+      &:before {
+        background-color: #3d5bd3;
+      }
+    }
+  }
+
+  .btn-again {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
