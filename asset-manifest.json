@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/react-games/static/css/main.2b3007c0.css",
+    "main.js": "/react-games/static/js/main.3b1b44c4.js",
+    "static/js/787.35482a52.chunk.js": "/react-games/static/js/787.35482a52.chunk.js",
+    "static/media/snake.png": "/react-games/static/media/snake.c480bbd438c7e71f8435.png",
+    "static/media/tic-tac-toe.png": "/react-games/static/media/tic-tac-toe.d74f9fa47656a2ceb1d9.png",
+    "index.html": "/react-games/index.html",
+    "main.2b3007c0.css.map": "/react-games/static/css/main.2b3007c0.css.map",
+    "main.3b1b44c4.js.map": "/react-games/static/js/main.3b1b44c4.js.map",
+    "787.35482a52.chunk.js.map": "/react-games/static/js/787.35482a52.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2b3007c0.css",
+    "static/js/main.3b1b44c4.js"
+  ]
+}
