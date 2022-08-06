@@ -29,7 +29,7 @@ const Snake: GameData = () => {
 
 const Score = () => {
     const { t } = useTranslation('snake');
-    const { curScore, maxScore, gameOver, reset } = useSnakeController(settings);
+    const { curScore, maxScore, gameActive, gameStart } = useSnakeController(settings);
 
     return (
         <>
@@ -37,13 +37,13 @@ const Score = () => {
                 <div>{curScore}</div>
                 <div>{maxScore}</div>
             </div>
-            {gameOver &&
-                <button
-                    className="btn btn-again"
-                    onClick={reset}
-                >
-                    {t('again')}
-                </button>
+
+            {!gameActive &&
+                <div className="floating-button">
+                    <button className="btn" onClick={gameStart}>
+                        {t('start')}
+                    </button>
+                </div>
             }
         </>
     )

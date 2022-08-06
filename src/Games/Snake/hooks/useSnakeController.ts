@@ -37,7 +37,7 @@ const useSnakeController = (settings: Settings) => {
     const keyLock = useRef(false);
     const [curScore, setCurScore] = useState(0);
     const [maxScore, setMaxScore] = useState(0);
-    const [gameEnded, setGameEnded] = useState(false);
+    const [gameActive, setGameActive] = useState(true);
 
     const moves: Moves = {
         up: pos => pos - settings.width,
@@ -156,7 +156,7 @@ const useSnakeController = (settings: Settings) => {
 
     const gameStart = () => {
         setCurScore(0);
-        setGameEnded(false);
+        setGameActive(true);
 
         const total = settings.width * settings.height;
         apple.current = Math.floor(Math.random() * total);
@@ -171,7 +171,7 @@ const useSnakeController = (settings: Settings) => {
     const gameOver = () => {
         setDirection('stop');
         setMaxScore(old => curScore > old ? curScore : old);
-        setGameEnded(true);
+        setGameActive(false);
         clearField();
     };
 
@@ -197,8 +197,8 @@ const useSnakeController = (settings: Settings) => {
     return {
         curScore,
         maxScore,
-        gameOver: gameEnded,
-        reset: gameStart,
+        gameActive,
+        gameStart,
     };
 };
 
