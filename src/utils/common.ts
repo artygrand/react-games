@@ -9,17 +9,18 @@ export function removeItemAtIndex<T>(arr: T[], index: number) {
 }
 
 export function shuffle<T extends any[]>(array: T) {
-    let curIdx = array.length,
+    let temp = [...array],
+        curIdx = array.length,
         rndIdx;
 
     while (curIdx !== 0) {
         rndIdx = Math.floor(Math.random() * curIdx);
         curIdx--;
 
-        [array[curIdx], array[rndIdx]] = [array[rndIdx], array[curIdx]];
+        [temp[curIdx], temp[rndIdx]] = [temp[rndIdx], temp[curIdx]];
     }
 
-    return array;
+    return temp;
 }
 
 export function randomValue<T>(array: T[]) {

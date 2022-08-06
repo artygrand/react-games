@@ -13,6 +13,7 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  user-select: none;
 }
 
 .app {
@@ -64,11 +65,21 @@ a {
 }
 
 .btn {
-  z-index: 100;
   cursor: pointer;
   padding: .5rem 1rem;
   text-transform: uppercase;
   background-color: #3d5bd3;
   color: #d2d7e3;
   border: none;
+}
+
+.floating-button {
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 47%;
+  background-color: rgba(0, 0, 0, .2);
+  text-align: center;
+  padding: 1rem 0;
 }

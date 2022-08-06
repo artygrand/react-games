@@ -1,0 +1,55 @@
+#game-concentration {
+  width: 100%;
+  max-width: 640px;
+  padding: 1rem;
+
+  .score {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      padding: 1rem 0;
+      font-size: 1.5rem;
+    }
+  }
+
+  .deck {
+    display: grid;
+    grid-gap: 10px;
+    perspective: 1000px;
+
+    .card {
+      position: relative;
+      transition: transform 500ms;
+      transform-style: preserve-3d;
+      aspect-ratio: 1 / 1.5;
+
+      &.flipped {
+        transform: rotateY(180deg);
+        pointer-events: none;
+      }
+
+      div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: .5rem;
+      }
+
+      .back {
+        background-color: #3d5bd3;
+      }
+
+      .face {
+        z-index:-1;
+        transform: rotateY(180deg);
+        background-color: #cb3939;
+        padding-top: 30%;
+
+        text-align: center;
+        font-size: 3rem;
+      }
+    }
+  }
+}
