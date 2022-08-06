@@ -38,8 +38,8 @@ const useTicTacToeController = () => {
     });
     const [ botTurn, newTurn ] = useReducer(bot => !bot, false);
     const [ score, setScore ] = useState({user: 0, tie: 0, bot: 0});
-    const [ winner, setWinner ] = useState<string|null>(null);
-    const [ gameOver, setGameOver ] = useState(false);
+    const [ winner, setWinner ] = useState<number|null>(null);
+    const [ gameActive, setGameActive ] = useState(true);
 
     useEffect(() => {
         // someone won or bot can choose any empty cell
@@ -47,7 +47,7 @@ const useTicTacToeController = () => {
 
         // looks like no variants for bot
         if (result < 0) {
-            setGameOver(true);
+            setGameActive(false);
 
             if (result === End.Tie) {
                 setScore(old => ({
@@ -69,7 +69,7 @@ const useTicTacToeController = () => {
                 return temp;
             });
 
-            setWinner(botTurn ? 'human' : 'robot');
+            setWinner(-End.Win + result); // restore check number
 
             return;
         }
@@ -106,7 +106,7 @@ const useTicTacToeController = () => {
             });
 
             if (enemy.length === 3 || my.length === 3) {
-                return End.Win;
+                return End.Win - i; // magical number for current check
             }
 
             if (enemy.length === 2 && empty.length === 1) {
@@ -114,8 +114,8 @@ const useTicTacToeController = () => {
             }
 
             if (my.length === 2 && empty.length === 1) {
-                // twice more chances to choose right decision
-                possible.push(empty[0], empty[0]);
+                // thrice more chances to choose right decision
+                possible.push(empty[0], empty[0], empty[0]);
             }
         }
 
@@ -147,23 +147,23 @@ const useTicTacToeController = () => {
         put(idx, CellState.Circle);
     };
 
-    const reset = () => {
+    const gameStart = () => {
         setData({
             state: [...defaultValues],
             empty: [...defaultEmpties],
         });
         newTurn();
         setWinner(null);
-        setGameOver(false);
+        setGameActive(true);
     };
 
     return {
-        gameOver,
+        gameActive,
         state: data.state,
         score,
         winner,
         userAction,
-        reset,
+        gameStart,
     };
 };
 

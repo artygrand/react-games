@@ -11,15 +11,10 @@ import useTicTacToeController, { CellState } from './hooks/useTicTacToeControlle
 
 const TicTacToe: GameData = () => {
     const { t } = useTranslation('tic-tac-toe');
-    const { gameOver, state, winner, score, userAction, reset } = useTicTacToeController();
+    const { gameActive, state, winner, score, userAction, gameStart } = useTicTacToeController();
 
     return (
         <div id="game-tic-tac">
-
-            <div className="winner">
-                {winner ? <>{t('winner')}: {t(winner)}</> : <br/>}
-            </div>
-
             <div className="score">
                 <div>{t('human')}</div>
                 <div>{score.user}</div>
@@ -29,36 +24,38 @@ const TicTacToe: GameData = () => {
                 <div>{score.bot}</div>
                 <div>{t('robot')}</div>
             </div>
-            <table style={gameOver ? {pointerEvents: 'none'} : undefined}>
-                <tbody>
-                {[0, 1, 2].map(x => (
-                    <tr key={x}>
-                        {[0, 1, 2].map(y => {
-                            const idx = x * 3 + y;
 
-                            return (
-                                <Cell
-                                    key={y}
-                                    idx={idx}
-                                    onClick={state[idx] === CellState.Empty ? () => userAction(x, y) : undefined}
-                                    state={state[idx]}
-                                />
-                            )
-                        })}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-
-            <div className="buttons">
-                {gameOver &&
-                    <button
-                        className="btn"
-                        onClick={reset}
-                    >
-                        {t('again')}
+            {!gameActive &&
+                <div className="floating-button">
+                    <button className="btn" onClick={gameStart}>
+                        {t('start')}
                     </button>
-                }
+                </div>
+            }
+
+            <div className="line-wrapper">
+                <div className={winner !== null ? `win line${winner}` : undefined} />
+
+                <table style={!gameActive ? {pointerEvents: 'none'} : undefined}>
+                    <tbody>
+                    {[0, 1, 2].map(x => (
+                        <tr key={x}>
+                            {[0, 1, 2].map(y => {
+                                const idx = x * 3 + y;
+
+                                return (
+                                    <Cell
+                                        key={y}
+                                        idx={idx}
+                                        onClick={state[idx] === CellState.Empty ? () => userAction(x, y) : undefined}
+                                        state={state[idx]}
+                                    />
+                                )
+                            })}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
