@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Queue, randomValue } from 'utils/common';
+import { isOutsideGrid, Queue, randomValue } from 'utils/common';
 import useInterval from 'hooks/useInterval';
 
 
@@ -132,16 +132,8 @@ const useSnakeController = (settings: Settings) => {
     };
 
     const isCollision = (from: number, to: number) => {
-        if (to < 0 || to > settings.width * settings.height) { // top or bottom border
+        if (isOutsideGrid(settings.width, settings.height, from, to))
             return true;
-        } else if (horizontal.includes(direction.current)) { // left or right
-            const curRow = Math.floor(from / settings.width),
-                nextRow = Math.floor(to / settings.width);
-
-            if (curRow !== nextRow) {
-                return true;
-            }
-        }
 
         const body = snake.current.getValues();
 

@@ -105,3 +105,16 @@ export class Queue<T> {
         return this.length;
     };
 }
+
+export const isOutsideGrid = (width: number, height: number, from: number, to: number) => {
+    if (to < 0 || to >= width * height) // top or bottom border
+        return true;
+
+    if (Math.abs(to - from) < width) { // left or right
+        const curRow = Math.floor(from / width),
+            nextRow = Math.floor(to / width);
+
+        if (curRow !== nextRow)
+            return true;
+    }
+};
