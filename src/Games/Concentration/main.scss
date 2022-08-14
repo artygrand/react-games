@@ -38,13 +38,13 @@
       }
 
       .back {
-        background-color: #3d5bd3;
+        background-color: var(--color-primary);
       }
 
       .face {
         z-index:-1;
         transform: rotateY(180deg);
-        background-color: #cb3939;
+        background-color: var(--color-secondary);
         padding-top: 30%;
 
         text-align: center;

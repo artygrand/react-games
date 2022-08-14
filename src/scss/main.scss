@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+:root {
+  --color-primary: #3d5bd3;
+  --color-secondary: #cb3939;
+  --color-bg: #282c34;
+  --color-bg-light: #535a69;
+  --color-bg-lighter: #70778a;
+  --color-text: #d7dae5;
+}
+
 *,
 *::before,
 *::after {
@@ -17,17 +26,17 @@ body {
 }
 
 .app {
-  background-color: #282c34;
+  background-color: var(--color-bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-text);
 }
 
 a {
-  color: white;
+  color: var(--color-text);
 }
 
 .games {
@@ -37,11 +46,11 @@ a {
   .card {
     text-decoration: none;
     padding: .25rem;
-    background-color: #404854;
+    background-color: var(--color-bg-light);
     border-radius: .25rem;
 
     &:hover {
-      background-color: #4a5260;
+      background-color: var(--color-bg-lighter);
     }
     .title {
       text-align: center;
@@ -55,8 +64,8 @@ a {
   top: 1rem;
   right: 1rem;
   text-decoration: none;
-  background-color: #d2d7e3;
-  color: #3d5bd3;
+  background-color: var(--color-text);
+  color: var(--color-primary);
   border-radius: 50%;
   padding: 0 .3rem .35rem;
   line-height: 1.5rem;
@@ -68,8 +77,8 @@ a {
   cursor: pointer;
   padding: .5rem 1rem;
   text-transform: uppercase;
-  background-color: #3d5bd3;
-  color: #d2d7e3;
+  background-color: var(--color-primary);;
+  color: var(--color-text);
   border: none;
 }
 
