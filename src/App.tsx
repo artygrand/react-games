@@ -7,12 +7,14 @@ import Home  from 'Home/Home';
 import TicTacToe from 'Games/TicTacToe/TicTacToe';
 import Snake from 'Games/Snake/Snake';
 import Concentration from 'Games/Concentration/Concentration';
+import FruitRow from 'Games/FruitRow/FruitRow';
 
 
 const games = [
-     TicTacToe,
-     Snake,
+    TicTacToe,
+    Snake,
     Concentration,
+    FruitRow,
 ];
 
 i18n.addResourceBundle('en', 'common', common_en);

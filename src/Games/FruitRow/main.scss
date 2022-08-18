@@ -1,0 +1,69 @@
+#game-fruit-row {
+  padding: 1rem;
+
+  .score {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: .5rem;
+    text-shadow: 2px 2px var(--color-secondary);
+  }
+
+  .field {
+    position: relative;
+    touch-action: none; // for work pointermove on mobile
+
+    div {
+      aspect-ratio: 1;
+      position: absolute;
+      font-size: 2rem;
+      text-align: center;
+
+      div {
+        pointer-events: none; // only cell can accept interaction
+      }
+    }
+  }
+
+  .anim {
+    transition: transform 200ms;
+  }
+
+  .shrink {
+    transition: transform 250ms cubic-bezier(.21,-0.73,.46,-0.5);
+    transform: scale(0);
+  }
+
+  @for $var from 1 through 30 {
+    .t-#{$var} {
+      transform: translateY(-100% * $var);
+    }
+
+    .fall-#{$var} {
+      transition: transform (150ms + 50 * $var) cubic-bezier(.175, .885, .32, 1.275);
+
+      div {
+        animation: stretch (150ms + 50 * $var);
+      }
+    }
+  }
+
+  .b-1 {
+    transform: translateY(100%);
+  }
+  .l-1 {
+    transform: translateX(-100%);
+  }
+  .r-1 {
+    transform: translateX(100%);
+  }
+
+  @keyframes stretch {
+    50% {
+      transform: scaleX(80%) scaleY(130%);
+    }
+    80% {
+      transform: scaleX(130%) scaleY(80%);
+    }
+  }
+}

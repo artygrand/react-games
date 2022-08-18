@@ -118,3 +118,5 @@ export const isOutsideGrid = (width: number, height: number, from: number, to: n
             return true;
     }
 };
+
+export const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
