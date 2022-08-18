@@ -26,6 +26,10 @@ const Home = ({ games }: HomeProps) => {
                     </Link>
                 ))}
             </div>
+
+            <div className="footer">
+                Psst, source code on <a href="https://github.com/artygrand/react-games">Github</a>
+            </div>
         </main>
     );
 };

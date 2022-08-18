@@ -41,12 +41,18 @@ a {
 
 .home {
   padding: 1rem;
+
+  .footer {
+    padding: .25rem;
+    text-align: center;
+  }
 }
 
 .games {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 2rem;
 
   .card {
     text-decoration: none;
