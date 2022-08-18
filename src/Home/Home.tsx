@@ -12,7 +12,7 @@ const Home = ({ games }: HomeProps) => {
     const { t } = useTranslation();
 
     return (
-        <main>
+        <main className="home">
             <h2>{t('welcome_text')}</h2>
 
             <div className="games">

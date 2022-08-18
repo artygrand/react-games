@@ -39,8 +39,13 @@ a {
   color: var(--color-text);
 }
 
+.home {
+  padding: 1rem;
+}
+
 .games {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 
   .card {
