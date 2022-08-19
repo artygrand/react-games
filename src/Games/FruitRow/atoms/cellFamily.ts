@@ -9,5 +9,5 @@ export type CellModel = {
 }
 
 export const cellFamily = atomFamily<CellModel, number>({
-    key: 'cell',
+    key: 'fruitRow/cell',
 });

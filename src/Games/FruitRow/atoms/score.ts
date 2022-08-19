@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
 export const scoreAtom = atom({
-    key: 'score',
+    key: 'fruitRow/score',
     default: 0,
 });
