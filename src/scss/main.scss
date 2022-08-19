@@ -98,8 +98,26 @@ a {
   position: fixed;
   left: 0;
   right: 0;
-  top: 47%;
+  top: 60%;
   background-color: rgba(0, 0, 0, .2);
   text-align: center;
   padding: 1rem 0;
+
+  &.floating-enter {
+    opacity: 0;
+    top: 65%;
+  }
+
+  &.floating-enter-active {
+    opacity: 1;
+    top: 60%;
+    transition: opacity 200ms, top 200ms;
+    transition-delay: .5s;
+  }
+
+  &.floating-exit-active {
+    opacity: 0;
+    top: 65%;
+    transition: opacity 300ms, top 300ms;
+  }
 }

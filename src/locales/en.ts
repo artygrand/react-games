@@ -1,7 +1,7 @@
 const lang = {
     back: 'Back',
     again: 'Again',
-    start: 'Start',
+    new_game: 'New Game',
     welcome_text: 'Welcome to the Game center!',
 };
 

@@ -17,6 +17,7 @@
     "react-i18next": "^11.18.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
     "recoil": "^0.7.5",
     "sass": "^1.54.0",
     "typescript": "^4.7.4",
@@ -50,6 +51,7 @@
   },
   "homepage": "https://artygrand.github.io/react-games",
   "devDependencies": {
+    "@types/react-transition-group": "^4.4.5",
     "gh-pages": "^4.0.0"
   }
 }

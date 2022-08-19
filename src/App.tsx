@@ -3,7 +3,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import i18n from 'utils/i18n';
 import common_en from 'locales/en';
 import common_ru from 'locales/ru';
-import Home  from 'Home/Home';
+import Home  from 'components/Home';
 import TicTacToe from 'Games/TicTacToe/TicTacToe';
 import Snake from 'Games/Snake/Snake';
 import Concentration from 'Games/Concentration/Concentration';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { GameData } from 'types';
+import StartButton from 'components/StartButton';
 import en from './locales/en';
 import ru from './locales/ru';
 import './main.scss'
@@ -38,13 +39,7 @@ const Score = () => {
                 <div>{maxScore}</div>
             </div>
 
-            {!gameActive &&
-                <div className="floating-button">
-                    <button className="btn" onClick={gameStart}>
-                        {t('start')}
-                    </button>
-                </div>
-            }
+            <StartButton active={gameActive} start={gameStart} />
         </>
     )
 }
