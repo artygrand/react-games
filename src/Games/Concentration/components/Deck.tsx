@@ -5,14 +5,14 @@ import Card from 'Games/Concentration/components/Card';
 
 type DeckProps = {
     cards: CardModel[],
-    inRow: number,
+    cols: number,
     flip: (i: number) => void,
 }
 
-const Deck = React.memo(({cards, inRow, flip}: DeckProps) => {
+const Deck = React.memo(({cards, cols, flip}: DeckProps) => {
     return (
-        <div className="deck" style={{gridTemplateColumns: `repeat(${inRow}, 1fr)`}}>
-            {cards.map((card, i) => <Card key={i} {...card} onClick={() => flip(i)} />)}
+        <div className="deck" style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}>
+            {cards.map(card => <Card key={card.idx} {...card} flip={flip} />)}
         </div>
     )
 });

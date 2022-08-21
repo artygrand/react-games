@@ -120,3 +120,13 @@ export const isOutsideGrid = (width: number, height: number, from: number, to: n
 };
 
 export const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
+
+export const timerToReadable = (timer: number) => {
+    const date = new Date(timer * 1000);
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const minutes = date.getMinutes();
+
+    return `${minutes}:${seconds}`;
+}
+
+export const range = (count: number) => Array.from(Array(count).keys());

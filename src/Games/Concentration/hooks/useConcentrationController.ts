@@ -1,19 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { replaceItemAtIndex, shuffle } from 'utils/common';
-import useDidUpdateEffect from "hooks/useDidUpdateEffect";
-import useInterval from "hooks/useInterval";
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import useDidUpdateEffect from 'hooks/useDidUpdateEffect';
+import useInterval from 'hooks/useInterval';
+import { movesAtom } from 'Games/Concentration/atoms/moves';
+import { timerAtom } from 'Games/Concentration/atoms/timer';
+import { scoreAtom } from 'Games/Concentration/atoms/score';
+import { range, replaceItemAtIndex, shuffle, sleep } from 'utils/common';
 
 
 export type CardModel = {
+    idx: number,
     value: string,
     flipped: boolean,
 }
 
-const settings = {
-    pairCount: 16, // max 30, for emojis count
-    rows: 4,
-    flipTime: 500,
-};
+export type CardGameSettings = {
+    pairCount: number,
+    cols: number,
+    flipTime: number,
+}
 
 const emojis = [
     '😃', '💣', '💯', '❤', '🖖',
@@ -24,24 +29,28 @@ const emojis = [
     '🥁', '💾', '📺', '💰', '📫',
 ];
 
-const useTicTacToeController = () => {
+const useConcentrationController = (settings: CardGameSettings) => {
     const lock = useRef(true);
     const [ gameActive, setGameActive ] = useState(false);
     const [ cards, setCards ] = useState<CardModel[]>([]);
     const [ prevFlipped, setPrevFlipped ] = useState(-1);
     const [ curFlipped, setCurFlipped ] = useState(-1);
-    const [ moves, setMoves ] = useState(0);
-    const [ score, setScore ] = useState(0);
-    const [ timer, setTimer ] = useState(0);
+    const [ score, setScore ] = useRecoilState(scoreAtom);
+    const setMoves = useSetRecoilState(movesAtom);
+    const setTimer = useSetRecoilState(timerAtom);
 
+    // on load
     useEffect(() => {
-        setCards(Array.from(Array(settings.pairCount * 2)).map(() => ({
-            value: '',
-            flipped: false,
-        })));
+        fillWithEmptyCards();
     }, []);
 
+    // on every flip
     useDidUpdateEffect(() => {
+        if (prevFlipped < 0) {
+            setPrevFlipped(curFlipped);
+            return;
+        }
+
         const id = setTimeout(() => checkState(prevFlipped, curFlipped), settings.flipTime);
         return () => clearTimeout(id);
     }, [curFlipped]);
@@ -50,18 +59,27 @@ const useTicTacToeController = () => {
         gameActive ? setTimer(old => old + 1) : flipRandom();
     }, 1000);
 
+    const fillWithEmptyCards = useCallback(() => {
+        setCards(range(settings.pairCount * 2).map(i => ({
+            idx: i,
+            value: '',
+            flipped: false,
+        })));
+    }, [setCards]);
+
     const flipRandom = () => {
         const idx = Math.floor(Math.random() * cards.length);
         setCards(old => replaceItemAtIndex(old, idx, {...old[idx], flipped: !old[idx].flipped}));
     };
 
-    const checkState = (prev: number, cur: number) => {
-        if (prev < 0) {
-            setPrevFlipped(cur);
-            return;
-        }
+    const lockWhileFlip = () => {
+        lock.current = true;
+        setTimeout(() => lock.current = false, settings.flipTime);
+    };
 
-        if (cards[prev].value !== cards[cur].value) { // if it is not pair - flip back
+    const checkState = (prev: number, cur: number) => {
+        if (cards[prev].value !== cards[cur].value) { // if it's not a pair
+            // flip back
             setCards(old => {
                 const temp = [...old];
 
@@ -70,6 +88,7 @@ const useTicTacToeController = () => {
 
                 return temp;
             });
+            lockWhileFlip();
         } else {
             if (score === settings.pairCount - 1)
                 setGameActive(false);
@@ -84,41 +103,43 @@ const useTicTacToeController = () => {
         if (lock.current)
             return;
 
+        lockWhileFlip();
+
         setCards(old => replaceItemAtIndex(old, idx, {...old[idx], flipped: true}));
         setMoves(old => old + 1);
         setCurFlipped(idx);
-
-        lock.current = true;
-        setTimeout(() => lock.current = false, settings.flipTime);
     }, []);
 
     const gameStart = () => {
-        const images = shuffle(emojis);
-        const deck = Array.from(Array(settings.pairCount)).map(() => ({
-            value: images.pop()!,
-            flipped: false,
-        }));
+        fillWithEmptyCards();
 
-        setCards(shuffle([...deck, ...deck.map(c => ({...c}))]));
-        setMoves(0);
-        setScore(0);
-        setTimer(0);
-        setPrevFlipped(-1);
-        setCurFlipped(-1);
-        setGameActive(true);
-        lock.current = false;
+        sleep(settings.flipTime).then(() => {
+            const images = shuffle(emojis);
+            const deck = range(settings.pairCount).map(() => images.pop()!);
+            const doubled = shuffle([...deck, ...deck]);
+
+            setCards(doubled.map((value, i) => ({
+                idx: i,
+                value: value,
+                flipped: false,
+            })));
+
+            setMoves(0);
+            setScore(0);
+            setTimer(0);
+            setPrevFlipped(-1);
+            setCurFlipped(-1);
+            setGameActive(true);
+            lock.current = false;
+        });
     };
 
     return {
-        moves,
-        score,
-        timer,
         gameActive,
         cards,
         flip,
         gameStart,
-        cardsInRow: Math.floor(settings.pairCount / settings.rows * 2),
     };
 };
 
-export default useTicTacToeController;
+export default useConcentrationController;
