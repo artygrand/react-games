@@ -1,12 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { GameData } from 'types';
-import StartButton from 'components/StartButton';
 import en from './locales/en';
 import ru from './locales/ru';
 import './main.scss'
 import image from './snake.png';
-import useSnakeController from './hooks/useSnakeController';
+import DirectionButtons from 'Games/Snake/components/DirectionButtons';
+import Header from 'Games/Snake/components/Header';
 
 
 const settings = {
@@ -20,29 +19,15 @@ const Snake: GameData = () => {
 
     return (
         <div id="game-snake">
-            <Score />
+            <Header settings={settings} />
             <div className="field" style={{gridTemplateColumns: `repeat(${settings.width}, 1fr)`}}>
                 {cells.map(i => <div key={i} />)}
             </div>
+
+            <DirectionButtons />
         </div>
     );
 };
-
-const Score = () => {
-    const { t } = useTranslation('snake');
-    const { curScore, maxScore, gameActive, gameStart } = useSnakeController(settings);
-
-    return (
-        <>
-            <div className="score">
-                <div>{curScore}</div>
-                <div>{maxScore}</div>
-            </div>
-
-            <StartButton active={gameActive} start={gameStart} />
-        </>
-    )
-}
 
 Snake.gameName = 'snake';
 Snake.image = image;

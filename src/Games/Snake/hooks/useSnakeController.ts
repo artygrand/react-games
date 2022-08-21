@@ -9,7 +9,7 @@ type Moves = {
     [key in Directions]: (v: number) => number;
 };
 
-type Settings = {
+export type Settings = {
     width: number,
     height: number,
     tickDelay: number,

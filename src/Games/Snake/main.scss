@@ -47,4 +47,30 @@
       }
     }
   }
+
+  .pad-bottom {
+    height: 8rem;
+  }
+
+  .direction-buttons {
+    position: fixed;
+    bottom: -1rem;
+    right: 0;
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 75px;
+    transform: rotate(45deg);
+
+    > div {
+      text-align: center;
+      padding-top: 40%;
+      background-color: rgba(0,0,0,.3);
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      transform: rotate(-45deg);
+      clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+    }
+  }
 }
