@@ -6,8 +6,8 @@ import { isOutsideGrid, randomValue, sleep } from 'utils/common';
 
 
 export type Settings = {
-    width: number,
-    height: number,
+    cols: number,
+    rows: number,
 }
 
 type Direction = 't' | 'b' | 'r' | 'l';
@@ -29,20 +29,20 @@ const useFruitRowController = (settings: Settings) => {
     const setScore = useSetRecoilState(scoreAtom);
 
     const nextIdByDirection: IdByDir = {
-        t: pos => pos - settings.width,
+        t: pos => pos - settings.cols,
         r: pos => pos + 1,
-        b: pos => pos + settings.width,
+        b: pos => pos + settings.cols,
         l: pos => pos - 1,
     };
 
     const createCell = useRecoilCallback(({ set }) => (x: number, y: number) => {
-        const id = x + settings.width * y;
+        const id = x + settings.cols * y;
 
         set(cellFamily(id), {
             value: randomValue(emojis),
-            xPos: x * 100 / settings.width,
-            yPos: y * 100 / settings.height,
-            size: 100 / settings.width,
+            xPos: x * 100 / settings.cols,
+            yPos: y * 100 / settings.rows,
+            size: 100 / settings.cols,
         });
     }, []);
 
@@ -79,7 +79,7 @@ const useFruitRowController = (settings: Settings) => {
                     // go to selected direction
                     let nextId = nextIdByDirection[dir as Direction](cur);
 
-                    if (isOutsideGrid(settings.width, settings.height, cur, nextId))
+                    if (isOutsideGrid(settings.cols, settings.rows, cur, nextId))
                         break;
 
                     let nextCell = snapshot.getLoadable(cellFamily(nextId)).contents;
@@ -169,14 +169,14 @@ const useFruitRowController = (settings: Settings) => {
 
     // On start fill field with fruits
     useEffect(() => {
-        for (let x = 0; x < settings.width; x++) {
-            for (let y = 0; y < settings.height; y++) {
+        for (let x = 0; x < settings.cols; x++) {
+            for (let y = 0; y < settings.rows; y++) {
                 createCell(x, y);
             }
         }
 
-        setCells(Array.from(Array(settings.width * settings.height).keys()))
-    }, [createCell, settings.width, settings.height]);
+        setCells(Array.from(Array(settings.cols * settings.rows).keys()))
+    }, [createCell, settings.cols, settings.rows]);
 
     // Add drag and drop
     useEffect(() => {
@@ -221,7 +221,7 @@ const useFruitRowController = (settings: Settings) => {
 
                 const bId = nextIdByDirection[dir](currentId);
 
-                if (isOutsideGrid(settings.width, settings.height, currentId, bId))
+                if (isOutsideGrid(settings.cols, settings.rows, currentId, bId))
                     return;
 
                 currentCell.className = `anim ${dir}-1`;

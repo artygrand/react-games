@@ -1,6 +1,5 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { isMobile } from 'react-device-detect';
 import { GameData } from 'types';
 import en from './locales/en';
 import ru from './locales/ru';
@@ -10,14 +9,17 @@ import Field from './components/Field';
 import Score from './components/Score';
 
 
-const settings = {
-    width: isMobile ? 6 : 12,
-    height: isMobile ? 12 : 10,
-};
 
 const FruitRow: GameData = () => {
     const width = Math.min(window.innerWidth - 32, 720);
-    const height = width / settings.width * settings.height;
+    const height = Math.min(window.innerHeight - 120, 720);
+    const cols = Math.floor(width / 50);
+    const rows = Math.floor(height / 50);
+
+    const settings = {
+        cols,
+        rows,
+    };
 
     return (
         <div id="game-fruit-row">
