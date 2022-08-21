@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { GameData } from 'types';
 import StartButton from 'components/StartButton';
 import en from './locales/en';
@@ -7,29 +6,21 @@ import ru from './locales/ru';
 import './main.scss'
 import image from './tic-tac-toe.png';
 import Cell from './components/Cell';
+import Header from './components/Header';
 import useTicTacToeController, { CellState } from './hooks/useTicTacToeController';
 
 
 const TicTacToe: GameData = () => {
-    const { t } = useTranslation('tic-tac-toe');
     const { gameActive, state, winner, score, userAction, gameStart } = useTicTacToeController();
 
     return (
         <div id="game-tic-tac">
-            <div className="score">
-                <div>{t('human')}</div>
-                <div>{score.user}</div>
-                <div>:</div>
-                <div>{score.tie}</div>
-                <div>:</div>
-                <div>{score.bot}</div>
-                <div>{t('robot')}</div>
-            </div>
-
             <StartButton active={gameActive} start={gameStart} />
 
+            <Header {...score} />
+
             <div className="line-wrapper">
-                <div className={winner !== null ? `win line${winner}` : undefined} />
+                <div className={winner !== null ? `win line-${winner}` : undefined} />
 
                 <table style={!gameActive ? {pointerEvents: 'none'} : undefined}>
                     <tbody>

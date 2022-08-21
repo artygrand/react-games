@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from 'react';
-import { randomValue, replaceItemAtIndex } from 'utils/common';
+import { randomValue, range, replaceItemAtIndex } from 'utils/common';
 
 
 export enum CellState {
@@ -9,12 +9,13 @@ export enum CellState {
 }
 
 enum End {
-    Win = -2,
+    Win = 1,
+    NotYet = 0,
     Tie = -1,
 }
 
-const defaultValues = Array(9).fill(CellState.Empty);
-const defaultEmpties = Array.from(Array(9).keys());
+const defaultValues: CellState[] = Array(9).fill(CellState.Empty);
+const defaultEmpties: number[] = range(9);
 const checks = [
     // rows
     [0, 1, 2],
@@ -41,47 +42,82 @@ const useTicTacToeController = () => {
     const [ winner, setWinner ] = useState<number|null>(null);
     const [ gameActive, setGameActive ] = useState(true);
 
+    // after every turn
     useEffect(() => {
-        // someone won or bot can choose any empty cell
-        const result = check(botTurn ? CellState.Cross : CellState.Circle);
+        const result = isSomeoneWon();
 
-        // looks like no variants for bot
-        if (result < 0) {
-            setGameActive(false);
-
-            if (result === End.Tie) {
-                setScore(old => ({
-                    ...old,
-                    tie: old.tie + 1,
-                }));
-
-                return;
+        if (result === End.NotYet) {
+            // only after human turn
+            if (botTurn) {
+                const timer = setTimeout(() => botAction(botChooseCell()), 500);
+                return () => clearTimeout(timer);
             }
-
-            setScore(old => {
-                const temp = {...old}
-
-                if (botTurn)
-                    temp.user++;
-                else
-                    temp.bot++;
-
-                return temp;
-            });
-
-            setWinner(-End.Win + result); // restore check number
 
             return;
         }
 
-        if (botTurn) {
-            const timer = setTimeout(() => botAction(result), 500);
-            return () => clearTimeout(timer);
+        setGameActive(false);
+
+        if (result === End.Tie) {
+            setScore(old => ({
+                ...old,
+                tie: old.tie + 1,
+            }));
+
+            return;
         }
+
+        setScore(old => {
+            const temp = {...old}
+
+            if (botTurn)
+                temp.user++;
+            else
+                temp.bot++;
+
+            return temp;
+        });
+
+        setWinner(result);
     }, [botTurn]);
 
-    const check = (enemyState: CellState) => {
-        // first choice for bot
+    const isSomeoneWon = () => {
+        for (let i = 0; i < checks.length; i++) {
+            const temp: {[key in CellState]: number[]} = {
+                [CellState.Cross]: [],
+                [CellState.Circle]: [],
+                [CellState.Empty]: [],
+            };
+
+            checks[i].forEach(idx => temp[data.state[idx]].push(idx));
+
+            if (temp[CellState.Cross].length === 3 || temp[CellState.Circle].length === 3) {
+                return End.Win + i; // magical number for current check
+            }
+        }
+
+        if (!data.empty.length)
+            return End.Tie;
+
+        return End.NotYet;
+    };
+
+    const put = (idx: number, type: CellState) => {
+        setData(old => ({
+            state: replaceItemAtIndex(old.state, idx, type),
+            empty: old.empty.filter(i => i !== idx),
+        }));
+
+        newTurn();
+    };
+
+    const userAction = (x: number, y: number) => {
+        if (!botTurn)
+            put(x*3+y, CellState.Cross);
+    };
+
+    const botChooseCell = () => {
+        // first choice
         if (data.empty.length > 7)
             return randomValue(data.empty);
 
@@ -97,7 +133,7 @@ const useTicTacToeController = () => {
                     case CellState.Empty:
                         empty.push(idx);
                         break;
-                    case enemyState:
+                    case CellState.Cross:
                         enemy.push(idx);
                         break;
                     default:
@@ -105,42 +141,22 @@ const useTicTacToeController = () => {
                 }
             });
 
-            if (enemy.length === 3 || my.length === 3) {
-                return End.Win - i; // magical number for current check
-            }
+            if (empty.length === 1) {
+                // easy mode for everyone! bot can make mistakes in just 5%
+                if (my.length === 2 && Math.random() >= .05) {
+                    return empty[0];
+                }
 
-            if (enemy.length === 2 && empty.length === 1) {
-                possible.push(empty[0]);
-            }
-
-            if (my.length === 2 && empty.length === 1) {
-                // thrice more chances to choose right decision
-                possible.push(empty[0], empty[0], empty[0]);
+                if (enemy.length === 2) {
+                    possible.push(empty[0]);
+                }
             }
         }
 
-        if (!data.empty.length)
-            return End.Tie;
-
         if (possible.length)
-            // easy mode for everyone! bot can make mistakes
             return randomValue(possible);
 
         return randomValue(data.empty);
-    };
-
-    const put = (idx: number, type: CellState) => {
-        setData(old => ({
-            state: replaceItemAtIndex(old.state, idx, type),
-            empty: old.empty.filter(i => i !== idx),
-        }));
-
-        newTurn();
-    };
-
-    const userAction = (x: number, y: number) => {
-        if (!botTurn)
-            put(x*3+y, CellState.Cross);
     };
 
     const botAction = (idx: number) => {
