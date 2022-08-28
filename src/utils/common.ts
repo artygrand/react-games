@@ -130,3 +130,25 @@ export const timerToReadable = (timer: number) => {
 }
 
 export const range = (count: number) => Array.from(Array(count).keys());
+
+export const minifyNumber = (number: number) => {
+    if (number >= 1000000000000000000)
+        return `${+(number / 1000000000000000000).toFixed(1)}e`
+
+    if (number >= 1000000000000000)
+        return `${+(number / 1000000000000000).toFixed(1)}p`
+
+    if (number >= 1000000000000)
+        return `${+(number / 1000000000000).toFixed(1)}t`
+
+    if (number >= 1000000000)
+        return `${+(number / 1000000000).toFixed(1)}g`;
+
+    if (number >= 1000000)
+        return `${+(number / 1000000).toFixed(1)}m`;
+
+    if (number >= 1000)
+        return `${+(number / 1000).toFixed(1)}k`;
+
+    return number;
+}

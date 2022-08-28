@@ -1,0 +1,87 @@
+export type MemberSettings = {
+    idx: number,
+    avatar: string,
+    name: string,
+    power: number,
+    cost: number,
+};
+
+export const gang: MemberSettings[] = [
+    {
+        idx: 0,
+        avatar: '👆',
+        name: 'you',
+        power: 1,
+        cost: 10,
+    },
+    {
+        idx: 1,
+        avatar: '👶',
+        name: 'kid',
+        power: 1,
+        cost: 100,
+    },
+    {
+        idx: 2,
+        avatar: '👺',
+        name: 'tengu',
+        power: 8,
+        cost: 1100,
+    },
+    {
+        idx: 3,
+        avatar: '🤢',
+        name: 'hulk',
+        power: 47,
+        cost: 12000,
+    },
+    {
+        idx: 4,
+        avatar: '👻',
+        name: 'ghost_raider',
+        power: 260,
+        cost: 130000,
+    },
+    {
+        idx: 5,
+        avatar: '💀',
+        name: 'skeleton',
+        power: 1400,
+        cost: 1400000,
+    },
+    {
+        idx: 6,
+        avatar: '😼',
+        name: 'felix',
+        power: 7800,
+        cost: 20000000,
+    },
+    {
+        idx: 7,
+        avatar: '👩‍🦰',
+        name: 'soulless_witch',
+        power: 44000,
+        cost: 330000000,
+    },
+    {
+        idx: 8,
+        avatar: '👽',
+        name: 'alien',
+        power: 260000,
+        cost: 5100000000,
+    },
+    {
+        idx: 9,
+        avatar: '👿',
+        name: 'mephisto',
+        power: 1600000,
+        cost: 75000000000,
+    },
+    {
+        idx: 10,
+        avatar: '👵',
+        name: 'leia',
+        power: 10000000,
+        cost: 1000000000000,
+    },
+];
