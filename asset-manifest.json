@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/react-games/static/css/main.40ec87a0.css",
-    "main.js": "/react-games/static/js/main.8ec5061e.js",
+    "main.css": "/react-games/static/css/main.cc9f0b3c.css",
+    "main.js": "/react-games/static/js/main.15bdb292.js",
     "static/js/787.35482a52.chunk.js": "/react-games/static/js/787.35482a52.chunk.js",
     "static/media/snake.png": "/react-games/static/media/snake.c480bbd438c7e71f8435.png",
     "static/media/fruit.png": "/react-games/static/media/fruit.609ab38f52ba4dcac24d.png",
     "static/media/tic-tac-toe.png": "/react-games/static/media/tic-tac-toe.d74f9fa47656a2ceb1d9.png",
     "static/media/concentration.png": "/react-games/static/media/concentration.53bf45a41ae6a51e6b3f.png",
     "index.html": "/react-games/index.html",
-    "main.40ec87a0.css.map": "/react-games/static/css/main.40ec87a0.css.map",
-    "main.8ec5061e.js.map": "/react-games/static/js/main.8ec5061e.js.map",
+    "main.cc9f0b3c.css.map": "/react-games/static/css/main.cc9f0b3c.css.map",
+    "main.15bdb292.js.map": "/react-games/static/js/main.15bdb292.js.map",
     "787.35482a52.chunk.js.map": "/react-games/static/js/787.35482a52.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.40ec87a0.css",
-    "static/js/main.8ec5061e.js"
+    "static/css/main.cc9f0b3c.css",
+    "static/js/main.15bdb292.js"
   ]
 }
